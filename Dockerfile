@@ -20,8 +20,7 @@ RUN set -x \
 	&& make -j$(nproc) \
 	&& make install \
 	&& ldconfig \
-        && python3 -m ensurepip \
-        && pip install virtualenv \
+        && pip3 install virtualenv \
 	&& rm -rf /usr/src/python
 
 CMD ["python3"]
