@@ -1,33 +1,32 @@
-FROM buildpack-deps:wheezy
-
-ADD http://www.stackless.com/binaries/stackless-279-export.tar.xz /
-ADD https://bootstrap.pypa.io/get-pip.py /
-
-# remove several traces of debian python
-RUN apt-get purge -y 'python.*'
-
-# http://bugs.python.org/issue19846
-# > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
-ENV LANG C.UTF-8
-
-ENV PYTHON_VERSION 2.7.9
+FROM debian:jessie
 
 RUN set -x \
-	&& mkdir -p /usr/src/python \
-	&& tar -xJC /usr/src/python --strip-components=1 -f /stackless-279-export.tar.xz \
-	&& rm /stackless-279-export.tar.xz \
-	&& cd /usr/src/python \
-	&& ./configure --enable-shared --enable-unicode=ucs4 \
-	&& make -j$(nproc) \
-	&& make install \
-	&& ldconfig \
-	&& python2 /get-pip.py \
-        && rm /get-pip.py \
-	&& find /usr/local \
-		\( -type d -a -name test -o -name tests \) \
-		-o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
-		-exec rm -rf '{}' + \
-        && pip install virtualenv \
-	&& rm -rf /usr/src/python
+    && apt-get update \
+    && apt-get install -y curl \
+    && rm -rf /var/lib/apt/lists/*
 
-CMD ["python2"]
+# install stackless in /opt/stackless
+RUN deps='ca-certificates libbz2-1.0 libgdbm3 libreadline6 libsqlite3-0 libssl1.0.0 zlib1g'; \
+    set -x \
+    && apt-get update \
+    && apt-get install -y $deps --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN buildDeps='curl gcc libbz2-dev libgdbm-dev libc6-dev libreadline6-dev libsqlite3-dev libssl-dev make xz-utils zlib1g-dev'; \
+    set -x \
+    && apt-get update \
+    && apt-get install -y $buildDeps --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /usr/src/python \
+    && curl http://www.stackless.com/binaries/stackless-279-export.tar.xz | tar -xJC /usr/src/python --strip-components=1 \
+    && cd /usr/src/python \
+    && ./configure --prefix=/opt/stackless \
+    && make -j$(nproc) \
+    && make install \
+    && ldconfig \
+    && curl https://bootstrap.pypa.io/get-pip.py > /get-pip.py \
+    && /opt/stackless/bin/python /get-pip.py \
+    && rm /get-pip.py \
+    && /opt/stackless/bin/pip --no-cache-dir install virtualenv \
+    && rm -rf /usr/src/python \
+    && apt-get purge -y --auto-remove $buildDeps
