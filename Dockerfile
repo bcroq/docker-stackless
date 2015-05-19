@@ -23,10 +23,10 @@ RUN buildDeps='curl gcc libbz2-dev libgdbm-dev libc6-dev libreadline6-dev libsql
     && ./configure --prefix=/opt/stackless \
     && make -j$(nproc) \
     && make install \
-    && ldconfig \
+    && cd / \
+    && rm -rf /usr/src/python \
     && curl https://bootstrap.pypa.io/get-pip.py > /get-pip.py \
     && /opt/stackless/bin/python /get-pip.py \
     && rm /get-pip.py \
-    && /opt/stackless/bin/pip --no-cache-dir install virtualenv \
-    && rm -rf /usr/src/python \
+    && /opt/stackless/bin/pip --no-cache-dir install --upgrade setuptools virtualenv \
     && apt-get purge -y --auto-remove $buildDeps
