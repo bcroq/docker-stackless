@@ -23,6 +23,7 @@ RUN buildDeps='curl gcc libbz2-dev libgdbm-dev libc6-dev libreadline6-dev libsql
     && ./configure --prefix=/opt/stackless \
     && make -j$(nproc) \
     && make install \
+    && cd / \
     && rm -rf /usr/src/python \
     && /opt/stackless/bin/pip3 install --upgrade pip \
     && /opt/stackless/bin/pip --no-cache-dir install --upgrade setuptools virtualenv \
