@@ -1,10 +1,5 @@
 FROM debian:jessie
 
-RUN set -x \
-    && apt-get update \
-    && apt-get install -y curl \
-    && rm -rf /var/lib/apt/lists/*
-
 # install stackless in /opt/stackless
 RUN deps='ca-certificates libbz2-1.0 libgdbm3 libreadline6 libsqlite3-0 libssl1.0.0 zlib1g'; \
     set -x \
