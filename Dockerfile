@@ -21,5 +21,5 @@ RUN buildDeps='curl gcc libbz2-dev libgdbm-dev libc6-dev libreadline6-dev libsql
     && cd / \
     && rm -rf /usr/src/python \
     && /opt/stackless/bin/python -m ensurepip \
-    && /opt/stackless/bin/pip --no-cache-dir install --upgrade setuptools virtualenv \
+    && /opt/stackless/bin/pip install --upgrade pip setuptools virtualenv \
     && apt-get purge -y --auto-remove $buildDeps
