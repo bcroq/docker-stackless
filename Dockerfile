@@ -7,19 +7,5 @@ RUN deps='ca-certificates libbz2-1.0 libgdbm3 libreadline6 libsqlite3-0 libssl1.
     && apt-get install -y $deps --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-RUN buildDeps='curl gcc libbz2-dev libgdbm-dev libc6-dev libreadline6-dev libsqlite3-dev libssl-dev make xz-utils zlib1g-dev'; \
-    set -x \
-    && apt-get update \
-    && apt-get install -y $buildDeps --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/* \
-    && mkdir -p /usr/src/python \
-    && curl http://www.stackless.com/binaries/stackless-279-export.tar.xz | tar -xJC /usr/src/python --strip-components=1 \
-    && cd /usr/src/python \
-    && ./configure --prefix=/opt/stackless \
-    && make -j$(nproc) \
-    && make install \
-    && cd / \
-    && rm -rf /usr/src/python \
-    && /opt/stackless/bin/python -m ensurepip \
-    && /opt/stackless/bin/pip install --upgrade pip setuptools virtualenv \
-    && apt-get purge -y --auto-remove $buildDeps
+COPY /build.sh /
+RUN sh -x /build.sh && rm /build.sh
