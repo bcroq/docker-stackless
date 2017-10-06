@@ -14,7 +14,7 @@ RUN BUILD_DEPS='bzip2 curl gcc libbz2-dev libgdbm-dev libc6-dev libreadline6-dev
  && apt-get update \
  && apt-get install -y $BUILD_DEPS --no-install-recommends \
  && mkdir -p /usr/src/python \
- && curl -s http://www.stackless.com/binaries/stackless-2713-export.tar.xz | tar -xJC /usr/src/python --strip-components=1 \
+ && curl -s http://www.stackless.com/binaries/stackless-2714-export.tar.xz | tar -xJC /usr/src/python --strip-components=1 \
  && cd /usr/src/python \
  && ./configure --prefix=/opt/stackless \
  && make -j$(nproc) \
