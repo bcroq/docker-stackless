@@ -11,7 +11,7 @@ rm -rf /var/lib/apt/lists/*
 
 # download sources
 mkdir -p /usr/src/python
-curl -s https://bitbucket.org/stackless-dev/stackless/get/v3.4.2-slp.tar.bz2 | tar -xjC /usr/src/python --strip-components=1
+curl -s https://bitbucket.org/stackless-dev/stackless/get/v3.5.3-slp.tar.bz2 | tar -xjC /usr/src/python --strip-components=1
 
 # build and install
 cd /usr/src/python
