@@ -9,7 +9,7 @@ RUN deps='ca-certificates libbz2-1.0 libgdbm3 libreadline6 libsqlite3-0 libssl1.
 RUN BUILD_DEPS='bzip2 curl gcc libbz2-dev libgdbm-dev libc6-dev libreadline6-dev libsqlite3-dev libssl-dev make zlib1g-dev'; \
     set -x \
  && apt-get update \
- && apt-get install -y $BUILD_DEPS --no-install-recommends
+ && apt-get install -y $BUILD_DEPS --no-install-recommends \
  && mkdir -p /usr/src/python \
  && curl -Ls https://github.com/stackless-dev/stackless/archive/v3.5.6-slp.tar.gz | tar -xzC /usr/src/python --strip-components=1 \
  && cd /usr/src/python \
