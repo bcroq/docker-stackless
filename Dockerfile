@@ -6,6 +6,7 @@ FROM debian:stable as builder
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
+    ca-certificates \
     bzip2 \
     curl \
     file \
