@@ -1,6 +1,8 @@
+# stage 1: builder
+
 FROM debian:stable as builder
 
-# install needed libraries
+# install needed build libraries
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -29,13 +31,11 @@ RUN mkdir -p /usr/src/python \
  && /opt/stackless/bin/pip install --upgrade pip setuptools virtualenv
 
 
-# stage 2
+# stage 2: the grand finale
 
 FROM debian:stable
 
-COPY --from=builder /opt/stackless /opt/stackless
-
-# install needed libraries
+# install needed runtime libraries
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -47,3 +47,7 @@ RUN apt-get update \
     libssl1.0.2 \
     xz-utils \
     zlib1g
+
+# get stackless from builder stage
+
+COPY --from=builder /opt/stackless /opt/stackless
