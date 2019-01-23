@@ -1,23 +1,48 @@
-FROM debian:jessie
+# stage 1
 
-# install stackless in /opt/stackless
-RUN deps='ca-certificates libbz2-1.0 libgdbm3 libreadline6 libsqlite3-0 libssl1.0.0 zlib1g'; \
-    set -x \
-    && apt-get update \
-    && apt-get install -y $deps --no-install-recommends
+FROM debian:stable as builder
 
-RUN BUILD_DEPS='bzip2 curl gcc libbz2-dev libgdbm-dev libc6-dev libreadline6-dev libsqlite3-dev libssl-dev make zlib1g-dev'; \
-    set -x \
- && apt-get update \
- && apt-get install -y $BUILD_DEPS --no-install-recommends \
- && mkdir -p /usr/src/python \
+# install needed libraries
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    bzip2 \
+    curl \
+    file \
+    gcc \
+    libbz2-dev \
+    libgdbm-dev \
+    libc6-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    make \
+    zlib1g-dev
+
+RUN mkdir -p /usr/src/python \
  && curl -Ls https://github.com/stackless-dev/stackless/archive/v3.6.6-slp.tar.gz | tar -xzC /usr/src/python --strip-components=1 \
  && cd /usr/src/python \
  && ./configure --prefix=/opt/stackless \
  && make -j$(nproc) \
  && make install \
- && cd / \
- && rm -rf /usr/src/python \
- && /opt/stackless/bin/pip3 install --upgrade pip \
- && /opt/stackless/bin/pip --no-cache-dir install --upgrade setuptools virtualenv \
- && apt-get purge -y --auto-remove $BUILD_DEPS
+ && /opt/stackless/bin/python3 -m ensurepip \
+ && /opt/stackless/bin/pip3 --no-cache-dir install --upgrade pip setuptools virtualenv
+
+
+# stage 2
+
+FROM debian:stable
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libbz2-1.0 \
+    libgdbm3 \
+    libreadline7 \
+    libsqlite3-0 \
+    libssl1.0.2 \
+    xz-utils \
+    zlib1g
+
+COPY --from=builder /opt/stackless /opt/stackless
