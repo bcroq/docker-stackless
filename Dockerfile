@@ -6,7 +6,6 @@ FROM debian:stable as builder
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-    ca-certificates \
     bzip2 \
     curl \
     file \
@@ -14,6 +13,7 @@ RUN apt-get update \
     libbz2-dev \
     libgdbm-dev \
     libc6-dev \
+    libffi-dev \
     libreadline-dev \
     libsqlite3-dev \
     libssl-dev \
@@ -21,7 +21,7 @@ RUN apt-get update \
     zlib1g-dev
 
 RUN mkdir -p /usr/src/python \
- && curl -Ls https://github.com/stackless-dev/stackless/archive/v3.6.6-slp.tar.gz | tar -xzC /usr/src/python --strip-components=1 \
+ && curl -Ls https://github.com/stackless-dev/stackless/archive/v3.7.2-slp.tar.gz | tar -xzC /usr/src/python --strip-components=1 \
  && cd /usr/src/python \
  && ./configure --prefix=/opt/stackless \
  && make -j$(nproc) \
@@ -38,6 +38,7 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     ca-certificates \
     libbz2-1.0 \
+    libffi6 \
     libgdbm3 \
     libreadline7 \
     libsqlite3-0 \
