@@ -1,6 +1,6 @@
 # stage 1: builder
 
-FROM debian:stable as builder
+FROM debian:buster as builder
 
 # install needed build libraries
 
@@ -33,7 +33,7 @@ RUN mkdir -p /usr/src/python \
 
 # stage 2: the grand finale
 
-FROM debian:stable
+FROM debian:buster
 
 # install needed runtime libraries
 
@@ -41,10 +41,10 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     ca-certificates \
     libbz2-1.0 \
-    libgdbm3 \
+    libgdbm6 \
     libreadline7 \
     libsqlite3-0 \
-    libssl1.0.2 \
+    libssl1.1 \
     xz-utils \
     zlib1g
 
