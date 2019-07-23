@@ -1,6 +1,6 @@
 # stage 1
 
-FROM debian:stable as builder
+FROM debian:stretch as builder
 
 # install needed libraries
 
@@ -33,7 +33,7 @@ RUN mkdir -p /usr/src/python \
 
 # stage 2
 
-FROM debian:stable
+FROM debian:stretch
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
