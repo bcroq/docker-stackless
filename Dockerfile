@@ -1,6 +1,6 @@
 # stage 1
 
-FROM debian:stable as builder
+FROM debian:jessie as builder
 
 # install needed libraries
 
@@ -21,7 +21,7 @@ RUN apt-get update \
     zlib1g-dev
 
 RUN mkdir -p /usr/src/python \
- && curl -Ls https://github.com/stackless-dev/stackless/archive/v3.6.6-slp.tar.gz | tar -xzC /usr/src/python --strip-components=1 \
+ && curl -Ls https://github.com/stackless-dev/stackless/archive/v3.6.8-slp.tar.gz | tar -xzC /usr/src/python --strip-components=1 \
  && cd /usr/src/python \
  && ./configure --prefix=/opt/stackless \
  && make -j$(nproc) \
@@ -32,7 +32,7 @@ RUN mkdir -p /usr/src/python \
 
 # stage 2
 
-FROM debian:stable
+FROM debian:jessie
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
