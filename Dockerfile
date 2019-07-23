@@ -1,6 +1,6 @@
 # stage 1: builder
 
-FROM debian:stable as builder
+FROM debian:stretch as builder
 
 # install needed build libraries
 
@@ -33,7 +33,7 @@ RUN mkdir -p /usr/src/python \
 
 # stage 2: the grand finale
 
-FROM debian:stable
+FROM debian:stretch
 
 # install needed runtime libraries
 
