@@ -22,7 +22,7 @@ RUN apt-get update \
 # build stackless
 
 RUN mkdir -p /usr/src/python \
- && curl -Ls https://github.com/stackless-dev/stackless/archive/v2.7.16-slp.tar.gz | tar -xzC /usr/src/python --strip-components=1 \
+ && curl -Ls https://github.com/stackless-dev/stackless/archive/v2.7.17-slp.tar.gz | tar -xzC /usr/src/python --strip-components=1 \
  && cd /usr/src/python \
  && ./configure --prefix=/opt/stackless \
  && make -j$(nproc) \
