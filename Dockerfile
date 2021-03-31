@@ -1,6 +1,6 @@
 # stage 1: builder
 
-FROM debian:buster as builder
+FROM debian:buster-slim as builder
 
 # install needed build libraries
 
@@ -33,7 +33,7 @@ RUN mkdir -p /usr/src/python \
 
 # stage 2: the grand finale
 
-FROM debian:buster
+FROM debian:buster-slim
 
 # install needed runtime libraries
 
