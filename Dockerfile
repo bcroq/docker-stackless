@@ -24,7 +24,7 @@ RUN apt-get update \
 RUN mkdir -p /usr/src/python \
  && curl -L https://github.com/stackless-dev/stackless/archive/v3.7.5-slp.tar.gz | tar -xzC /usr/src/python --strip-components=1 \
  && cd /usr/src/python \
- && ./configure --prefix=/opt/stackless \
+ && LDFLAGS=-s ./configure --prefix=/opt/stackless \
  && make -j$(nproc) \
  && make install \
  && /opt/stackless/bin/python3 -m ensurepip \
