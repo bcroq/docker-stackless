@@ -22,7 +22,7 @@ RUN apt-get update \
     zlib1g-dev
 
 RUN mkdir -p /usr/src/python \
- && curl -L https://github.com/stackless-dev/stackless/archive/v3.7.6-slp.tar.gz | tar -xzC /usr/src/python --strip-components=1 \
+ && curl -L https://github.com/stackless-dev/stackless/archive/v3.7.7-slp.tar.gz | tar -xzC /usr/src/python --strip-components=1 \
  && cd /usr/src/python \
  && LDFLAGS=-s ./configure --prefix=/opt/stackless \
  && make -j$(nproc) \
